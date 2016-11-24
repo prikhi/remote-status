@@ -75,7 +75,7 @@ finishOne : Model -> Model
 finishOne status =
     case status of
         InProgress trackingCount finishedCount ->
-            if trackingCount + 1 == trackingCount then
+            if trackingCount + 1 == finishedCount then
                 Finished
             else
                 InProgress trackingCount (finishedCount + 1)
