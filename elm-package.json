@@ -1,12 +1,14 @@
 {
-    "version": "1.0.0",
+    "version": "1.0.1",
     "summary": "A Library for Tracking the Status of Remote Requests",
     "repository": "https://github.com/prikhi/remote-status.git",
     "license": "BSD3",
     "source-directories": [
         "src"
     ],
-    "exposed-modules": [ "RemoteStatus" ],
+    "exposed-modules": [
+        "RemoteStatus"
+    ],
     "dependencies": {
         "elm-lang/core": "5.0.0 <= v < 6.0.0"
     },
