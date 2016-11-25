@@ -5,6 +5,7 @@ module RemoteStatus
         , start
         , enqueue
         , finishOne
+        , isInProgress
         , isFinished
         )
 
@@ -17,12 +18,13 @@ module RemoteStatus
 @docs start, enqueue, finishOne
 
 # Querying
-@docs isFinished
+@docs isInProgress, isFinished
 
 -}
 
 
-{-| Store the status of a remote operation.
+{-| Store the status of a remote operation, differentiating between unstarted,
+in progress and completed states.
 -}
 type Model
     = NotStarted
@@ -37,7 +39,7 @@ initial =
     NotStarted
 
 
-{-| Start tracking the remote operation if it has not yet been started.
+{-| Start tracking the remote operation if the status is in it's initial state.
 -}
 start : Model -> Model
 start status =
@@ -45,13 +47,6 @@ start status =
         InProgress 0 0
     else
         status
-
-
-{-| Determine whether the operation has completed.
--}
-isFinished : Model -> Bool
-isFinished status =
-    status == Finished
 
 
 {-| Increase the number of remote operations to track.
@@ -85,3 +80,22 @@ finishOne status =
 
         Finished ->
             Finished
+
+
+{-| Determine whether the operations are still in progress.
+-}
+isInProgress : Model -> Bool
+isInProgress status =
+    case status of
+        InProgress _ _ ->
+            True
+
+        _ ->
+            False
+
+
+{-| Determine whether the operations have completed.
+-}
+isFinished : Model -> Bool
+isFinished status =
+    status == Finished
