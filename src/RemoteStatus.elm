@@ -1,6 +1,6 @@
 module RemoteStatus
     exposing
-        ( Model
+        ( Status
         , initial
         , start
         , enqueue
@@ -13,7 +13,7 @@ module RemoteStatus
 {-| RemoteStatus is used to track the progress of multiple remote operations.
 
 # Definition
-@docs Model, initial
+@docs Status, initial
 
 # Operations
 @docs start, enqueue, finishOne
@@ -27,7 +27,7 @@ module RemoteStatus
 {-| Store the status of a remote operation, differentiating between unstarted,
 in progress and completed states.
 -}
-type Model
+type Status
     = NotStarted
     | InProgress Int Int
     | Finished
@@ -35,14 +35,14 @@ type Model
 
 {-| Default the status to not started.
 -}
-initial : Model
+initial : Status
 initial =
     NotStarted
 
 
 {-| Start tracking the remote operation if the status is in it's initial state.
 -}
-start : Model -> Model
+start : Status -> Status
 start status =
     if status == NotStarted then
         InProgress 0 0
@@ -52,7 +52,7 @@ start status =
 
 {-| Increase the number of remote operations to track.
 -}
-enqueue : Model -> Int -> Model
+enqueue : Status -> Int -> Status
 enqueue status num =
     case status of
         InProgress trackingCount finishedCount ->
@@ -67,7 +67,7 @@ enqueue status num =
 
 {-| Increase the number of operations that have been completed by 1.
 -}
-finishOne : Model -> Model
+finishOne : Status -> Status
 finishOne status =
     case status of
         InProgress trackingCount finishedCount ->
@@ -85,7 +85,7 @@ finishOne status =
 
 {-| Determine whether the operations are still in progress.
 -}
-isInProgress : Model -> Bool
+isInProgress : Status -> Bool
 isInProgress status =
     case status of
         InProgress _ _ ->
@@ -97,14 +97,14 @@ isInProgress status =
 
 {-| Determine whether the operations have completed.
 -}
-isFinished : Model -> Bool
+isFinished : Status -> Bool
 isFinished status =
     status == Finished
 
 
 {-| Determine the percentage of completed operations if operations are in progress.
 -}
-percentageCompleted : Model -> Maybe Int
+percentageCompleted : Status -> Maybe Int
 percentageCompleted status =
     case status of
         InProgress totalCount finishedCount ->
