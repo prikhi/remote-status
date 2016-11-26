@@ -7,6 +7,7 @@ module RemoteStatus
         , finishOne
         , isInProgress
         , isFinished
+        , percentageCompleted
         )
 
 {-| RemoteStatus is used to track the progress of multiple remote operations.
@@ -18,7 +19,7 @@ module RemoteStatus
 @docs start, enqueue, finishOne
 
 # Querying
-@docs isInProgress, isFinished
+@docs isInProgress, isFinished, percentageCompleted
 
 -}
 
@@ -99,3 +100,15 @@ isInProgress status =
 isFinished : Model -> Bool
 isFinished status =
     status == Finished
+
+
+{-| Determine the percentage of completed operations if operations are in progress.
+-}
+percentageCompleted : Model -> Maybe Int
+percentageCompleted status =
+    case status of
+        InProgress totalCount finishedCount ->
+            Just << floor <| (toFloat finishedCount / toFloat totalCount) * 100
+
+        _ ->
+            Nothing
