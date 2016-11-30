@@ -4,3 +4,4 @@ node_js:
 install:
   - npm install -g elm
   - npm install -g elm-test
+script: elm test
