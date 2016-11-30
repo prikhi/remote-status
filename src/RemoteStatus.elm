@@ -23,14 +23,14 @@ module RemoteStatus
 
 -}
 
+import RemoteStatus.Internals exposing (Status(NotStarted, InProgress, Finished))
+
 
 {-| Store the status of a remote operation, differentiating between unstarted,
 in progress and completed states.
 -}
-type Status
-    = NotStarted
-    | InProgress Int Int
-    | Finished
+type alias Status =
+    RemoteStatus.Internals.Status
 
 
 {-| Default the status to not started.
