@@ -1,5 +1,5 @@
 {
-    "version": "3.0.0",
+    "version": "3.0.1",
     "summary": "A Library for Tracking the Status of Remote Requests",
     "repository": "https://github.com/prikhi/remote-status.git",
     "license": "BSD3",
