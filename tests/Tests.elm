@@ -84,10 +84,19 @@ all =
                         (isFinished <| InProgress total saved)
             ]
         , describe "percentageCompleted"
-            [ fuzz2 int int "returns the correct percentage for InProgress statuses" <|
-                \extra saved ->
-                    Expect.equal (percentageCompleted <| InProgress (saved + extra) saved)
-                        (Just << floor <| toFloat saved / toFloat (saved + extra) * 100)
+            [ test "returns the correct percentage for InProgress statuses" <|
+                \() ->
+                    Expect.equalLists
+                        (List.map (\( a, b ) -> percentageCompleted <| InProgress b a)
+                            [ ( 1, 4 )
+                            , ( 1, 3 )
+                            , ( 1, 2 )
+                            , ( 2, 3 )
+                            , ( 3, 4 )
+                            , ( 5, 6 )
+                            ]
+                        )
+                        (List.map Just [ 25, 33, 50, 66, 75, 83 ])
             , test "returns Nothing for NotStarted statuses" <|
                 \() -> Expect.equal (percentageCompleted NotStarted) Nothing
             , test "returns Nothing for Finished statuses" <|
